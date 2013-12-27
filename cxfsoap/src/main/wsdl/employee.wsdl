@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<definitions name="employee" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:tns="http://cxfsoap.vcjain.com/employee/" xmlns="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://cxfsoap.vcjain.com/employee/">
+
+	<types>
+		<xsd:schema targetNamespace="http://cxfsoap.vcjain.com/employee/">
+			<xsd:complexType name="employee">
+				<xsd:sequence>
+					<xsd:element minOccurs="0" name="firstName" type="xsd:string" />
+					<xsd:element name="ID" type="xsd:long" />
+					<xsd:element minOccurs="0" name="lastName" type="xsd:string" />
+					<xsd:element maxOccurs="unbounded" minOccurs="0" name="subjects"
+						nillable="true" type="xsd:string" />
+				</xsd:sequence>
+			</xsd:complexType>
+		</xsd:schema>
+	</types>
+	<message name="addEmpRequest">
+		<part name="employee" type="tns:employee"></part>
+	</message>
+	<message name="addEmpResponse">
+		<part name="response" type="xsd:string"></part>
+	</message>
+
+	<portType name="EmpService">
+		<operation name="addEmp">
+			<input message="tns:addEmpRequest"></input>
+			<output message="tns:addEmpResponse"></output>
+		</operation>
+	</portType>
+
+	<binding name="EmpServiceBinding" type="tns:EmpService">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http"
+			style="rpc" />
+		<operation name="addEmp">
+			<soap:operation style="rpc" />
+			<input>
+				<soap:body use="literal" />
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+		</operation>
+	</binding>
+
+	<service name="EmpService">
+		<port name="EmpServicePort" binding="tns:EmpServiceBinding">
+			<soap:address location="http://localhost:8080/cxfsoap/emp" />
+		</port>
+	</service>
+</definitions>
